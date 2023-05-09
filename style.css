@@ -197,3 +197,12 @@ button {
 #resume {
     border-radius: 1.5rem;
 }
+
+footer {
+    background-color: darkslateblue;
+    height: 6rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
