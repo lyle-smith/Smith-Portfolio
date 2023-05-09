@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav-bar></nav-bar>
+    </header>
+    <main class="center-main">
+        <h1 class="portfolio-title">My Portfolio</h1>
+        <div id="projects">
+            <div class="project">
+                <img src="images/project-special-1.png" alt="" />
+                <h2>Special</h2>
+                <p>I created this fitness tracker website using Vue for the front-end, Express to handle server-side processes, and MongoDB as the database. It is currently incomplete, but for right now it allows users to log as many workouts as they want for a given day, and to add as many pre-selected exercises as they would like to a given workout. Eventually there will be additional features to assist users in progressing in their workouts, with recommendations being given based on the user's weight and diet.</p>
+                <a href="https://web-programming-assignments.onrender.com/">View Project</a>
+            </div>
+            <div class="project">
+                <img src="images/project-safari-1.png" alt="" />
+                <h2>Safari Snapshot</h2>
+                <p>I worked on this game as a group project for my software engineering class. Safari Snapshot is an educational game set in a virtual safari that is meant to be played by elementary school children to teach them facts about different animals and assess what they have learned through quizzes given by the safari's tour guide. This project was built in Unreal Engine 4 using the built-in Blueprint programming language.</p>
+            </div>
+            <div class="project">
+                <img src="images/project-it-ticket-1.png" alt="" />
+                <h2>IT HelpDesk</h2>
+                <p>I am currently working on this project for the SUNY New Paltz IT department for my senior project. In an attempt to more efficiently reach their service level agreements with their clients, the IT department has tasked my team with creating a machine learning algorithm that uses language processing to attempt to direct a ticket to the correct department. </p>
+                <a href="https://cs.newpaltz.edu/p/s23-07/v2/">View Project</a>
+            </div>
+        </div>
+        <div id="expanded-img">
+            <div id="expanded-img-close">X</div>
+            <div id="image-circles"></div>
+        </div>
+    </main>
+    <script type="text/javascript">
+        let projects = document.getElementsByClassName("project");
+        let mouseHovering = -1;
+        let srcIndex = 1;
+        let imageExpanded = -1;
+
+        let imageSets = [
+            [
+                "images/project-special-1.png",
+                "images/project-special-2.png"
+            ], 
+            [
+                "images/project-safari-1.png", 
+                "images/project-safari-2.png", 
+                "images/project-safari-3.png", 
+                "images/project-safari-4.png", 
+                "images/project-safari-5.png"
+            ],
+            [
+                "images/project-it-ticket-1.png"
+            ]
+        ];
+
+        for(let i = 0; i < projects.length; i++) {
+            projects[i].getElementsByTagName("img")[0].addEventListener("mouseleave", function(event) {
+                projects[i].getElementsByTagName("img")[0].style.opacity = 1;
+                mouseHovering = -1;
+                srcIndex = 0;
+                projects[i].getElementsByTagName("img")[0].src = imageSets[i][0];
+            })
+            projects[i].getElementsByTagName("img")[0].addEventListener("mouseover", function(event) {
+                projects[i].getElementsByTagName("img")[0].style.opacity = 0.9;
+                mouseHovering = i;
+                srcIndex++;
+                let interval = setInterval(function() {
+                    if (mouseHovering === i) {
+                        if (projects[i].getElementsByTagName("img")[0].src !== imageSets[i][srcIndex])
+                            projects[i].getElementsByTagName("img")[0].src = imageSets[i][srcIndex];
+                        if (srcIndex >= imageSets[i].length - 1) {
+                            srcIndex = 0;
+                        } else {
+                            srcIndex++;
+                        }
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 2000);
+            })
+            projects[i].getElementsByTagName("img")[0].addEventListener("click", function(event) {
+                document.getElementById("expanded-img").style.display = "block";
+                if (document.getElementById("expanded-img").style.backgroundImage !== "url('" + imageSets[i][0] + "')") {
+                    document.getElementById("expanded-img").style.backgroundImage = "url('" + imageSets[i][0] + "')";
+                }
+                createImageCircles(i);
+                setImageCircleActive(0);
+
+                imageExpanded = i;
+                srcIndex++;
+                
+
+                let interval = setInterval(function() {
+                    if (imageExpanded === i) {
+                        if (document.getElementById("expanded-img").style.backgroundImage !== "url('" + imageSets[i][srcIndex] + "')") {
+                            document.getElementById("expanded-img").style.backgroundImage = "url('" + imageSets[i][srcIndex] + "')";
+                            console.log(imageSets[i][srcIndex]);
+                            setImageCircleActive(srcIndex);
+                        }
+                        if (srcIndex >= imageSets[i].length - 1) {
+                            srcIndex = 0;
+                        } else {
+                            srcIndex++;
+                        }
+                        setImageCircleInactive(srcIndex);
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 2000);
+            })
+            document.getElementById("expanded-img-close").addEventListener("click", function(event) {
+                document.getElementById("expanded-img").style.display = "none";
+                removeImageCircles();
+                imageExpanded = -1;
+            })
+        }
+
+        function createImageCircles(_projectIndex) {
+            imageSets[_projectIndex].forEach(function(image) {
+                document.getElementById("image-circles").appendChild(document.createElement("div"));
+            });
+        }
+
+        function removeImageCircles() {
+            document.getElementById("image-circles").innerHTML = "";
+        }
+
+        function setImageCircleActive(_imageIndex) {
+            // document.getElementById("image-circles").children[1].classList.add("active");
+            document.getElementById("image-circles").children[_imageIndex].style.backgroundColor = "white";
+        }
+
+        function setImageCircleInactive(_imageIndex) {
+            document.getElementById("image-circles").children[_imageIndex].style.backgroundColor = "black";
+        }
+    </script>
+    <script src="nav-bar.js"></script>
+</body>
+</html>
