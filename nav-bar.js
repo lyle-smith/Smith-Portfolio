@@ -15,7 +15,7 @@ class NavBar extends HTMLElement {
                     <a href="about.html" class="nav-link">About Me</a>
                     <a href="contact.html" class="nav-link">Contact</a>
                     <a href="projects.html" class="nav-link">My Portfolio</a>
-                    <a href="resume.pdf" class="nav-link">My Resume</a>
+                    <a href="resume.html" class="nav-link">My Resume</a>
                 </div>
             </div>
         </div>

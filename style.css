@@ -189,3 +189,11 @@ button {
 #contact-table {
     margin-bottom: 2rem;
 }
+
+#resume-header {
+    margin: 2rem 0;
+}
+
+#resume {
+    border-radius: 1.5rem;
+}
